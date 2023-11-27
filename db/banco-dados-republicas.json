@@ -17,21 +17,21 @@
       "qtdAnimal": 1
     },
     {
-      "id": 1,
-      "nome": "Poquito Más",
-      "anoDeCriacao": "2004",
-      "bairro": "BPS",
-      "rua": "Prefeito Tigre Maia",
-      "numero": "1036",
-      "qtdMembros" : 9,
-      "vagasDisponiveis": 3,
+      "id": 2,
+      "nome": "FazHerdeiros",
+      "anoDeCriacao": "2002",
+      "bairro": "Pinheirinho",
+      "rua": "Dr. Domiciano Costa Moreira",
+      "numero": "210",
+      "qtdMembros" : 14,
+      "vagasDisponiveis": 4,
       "qtdQuartosDisponiveis": 3,
-      "tipoDeQuarto": "Dividir",
+      "tipoDeQuarto": "Duplo/Triplo",
       "mobiliado" : "Sim",
-      "mensalidade" : 850,
-      "funcionario" : "Empregada",
+      "mensalidade" : 800,
+      "funcionario" : "Diarista",
       "animal": "cachorro",
-      "qtdAnimal": 1
+      "qtdAnimal": 2
     },
     {
       "id": 3,
