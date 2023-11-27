@@ -17,21 +17,21 @@
       "qtdAnimal": 1
     },
     {
-      "id": 2,
-      "nome": "FazHerdeiros",
-      "anoDeCriacao": "2002",
-      "bairro": "Pinheirinho",
-      "rua": "Dr. Domiciano Costa Moreira",
-      "numero": "210",
-      "qtdMembros" : 14,
-      "vagasDisponiveis": 4,
+      "id": 1,
+      "nome": "Poquito Más",
+      "anoDeCriacao": "2004",
+      "bairro": "BPS",
+      "rua": "Prefeito Tigre Maia",
+      "numero": "1036",
+      "qtdMembros" : 9,
+      "vagasDisponiveis": 3,
       "qtdQuartosDisponiveis": 3,
-      "tipoDeQuarto": "Duplo/Triplo",
+      "tipoDeQuarto": "Dividir",
       "mobiliado" : "Sim",
-      "mensalidade" : 800,
-      "funcionario" : "Diarista",
+      "mensalidade" : 850,
+      "funcionario" : "Empregada",
       "animal": "cachorro",
-      "qtdAnimal": 2
+      "qtdAnimal": 1
     },
     {
       "id": 3,
