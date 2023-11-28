@@ -17,6 +17,7 @@ app.listen(3000, () => {
 });
 
 const User = require('./model/User');
+const Inscricao = require('./model/Inscricao');
 
 //Requisicao com POST publica para autenticar usuário
 app.post('/login', async (req,res) => {
@@ -49,7 +50,7 @@ app.post('/login', async (req,res) => {
 })
 
 //Requisicao com POST publica para criar usuário
-app.post('/create', async (req,res) => {
+app.post('/create-user', async (req,res) => {
     //extraindo os dados do formulário para criacao do usuario
     const {username, email, password} = req.body; 
     
@@ -83,6 +84,21 @@ app.post('/create', async (req,res) => {
     res.send(`Tudo certo usuario criado com sucesso.`);
 });
 
+app.get('/mi', verificaToken, (req,res) => {
+    const authHeaders = req.headers['authorization'];
+    
+    const token = authHeaders && authHeaders.split(' ')[1]
+    //Bearer token
+
+    try {
+        const decodedToken = jwt.decode(token, process.env.TOKEN);
+        return res.json(decodedToken);
+    } catch (error) {
+        return res.status(401).json({ error: 'Falha na decodificação do token' });
+    }
+      
+})
+
 // Função para retornar todas as repúblicas disponíveis
 app.get('/republicas', verificaToken,  (req,res) => {
 
@@ -109,6 +125,43 @@ app.get('/republicas/:nome', verificaToken, (req,res) => {
     return res.status(403).send(`Nome Não Encontrada!`);
 
 })
+
+// Função para criar uma inscrição
+app.post('/create-inscricao', async (req,res) => {
+    //extraindo os dados do formulário para criacao da inscrição
+    const {nome, idade, cidade, curso, redeSocial, celular, sobre, curiosidade, motivoEscolha} = req.body; 
+    
+    const jsonPathInscricoes = path.join(__dirname, '.', 'db', 'banco-dados-inscricoes.json');
+    const inscricoesCadastradas = JSON.parse(fs.readFileSync(jsonPathInscricoes, { encoding: 'utf8', flag: 'r' }));
+
+    const jsonPathRepublicas = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
+    const republicasCadastradas = JSON.parse(fs.readFileSync(jsonPathRepublicas, { encoding: 'utf8', flag: 'r' }));
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    //Deu certo. Vamos colocar a inscrição no "banco"
+    //Gerar um id incremental baseado na qt de inscrições
+    const id = usuariosCadastrados.length + 1;
+
+    //Criacao da inscrição
+    const inscricao = new Inscricao(id, nome, idade, cidade, curso, redeSocial, celular, sobre, curiosidade, motivoEscolha);
+
+    //Salva inscrição no "banco"
+    inscricoesCadastradas.push(inscricao);
+    fs.writeFileSync(jsonPathInscricoes,JSON.stringify(inscricoesCadastradas,null,2));
+
+    //Salva o id da inscrição no atributo "inscrições" da república na qual foi cadastrada uma inscrição (Não está funcionando)
+    inscricoesCadastradas.push(inscricao);
+    fs.writeFileSync(jsonPathInscricoes,JSON.stringify(inscricoesCadastradas,null,2));
+
+    //Salva o id da inscrição no atributo "inscrições" do usuário ao qual cadastrou uma inscrição (Não está funcionando)
+    inscricoesCadastradas.push(inscricao);
+    fs.writeFileSync(jsonPathInscricoes,JSON.stringify(inscricoesCadastradas,null,2));
+
+
+    res.send(`Inscrição criada com sucesso`);
+});
 
 function verificaToken(req,res,next){
 
