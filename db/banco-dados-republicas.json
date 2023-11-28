@@ -17,7 +17,9 @@
       "animal": "cachorro",
       "img": "logo-poquito",
       "instagram" : "@reppoquitomas",
-      "contato" : "12997436507"
+      "contato" : "12997436507",
+      "email":"reppoquitomas@gmail.com",
+      "inscricoes": []
     },
     {
       "id": 2,
@@ -37,7 +39,8 @@
       "animal": "cachorro e gato",
       "img": "logo-poquito",
       "instagram" : "@reppoquitomas",
-      "contato" : "12997436507"
+      "contato" : "12997436507",
+      "email":"reppoquitomas@gmail.com"
     },
     {
       "id": 3,
@@ -57,7 +60,8 @@
       "animal": "cachorro",
       "img": "logo-poquito",
       "instagram" : "@reppoquitomas",
-      "contato" : "12997436507"
+      "contato" : "12997436507",
+      "email":"reppoquitomas@gmail.com"
     },
     {
       "id": 4,
@@ -77,7 +81,8 @@
       "animal": "cachorro",
       "img": "logo-poquito",
       "instagram" : "@reppoquitomas",
-      "contato" : "12997436507"
+      "contato" : "12997436507",
+      "email":"reppoquitomas@gmail.com"
     },
     {
       "id": 5,
@@ -97,6 +102,7 @@
       "animal": "cachorro",
       "img": "logo-poquito",
       "instagram" : "@reppoquitomas",
-      "contato" : "12997436507"
+      "contato" : "12997436507",
+      "email":"reppoquitomas@gmail.com"
     }   
 ]
