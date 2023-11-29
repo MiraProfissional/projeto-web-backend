@@ -126,8 +126,25 @@ app.get('/republica/:nome', verificaToken, (req,res) => {
 
 })
 
+// Função para retornar uma reública com base no seu id
+app.get('/republica/:id', verificaToken, (req,res) => {
+
+    const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
+    const republicas = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
+
+    const params = req.params;    
+    //buscar republica
+    for(let republica of republicas){
+        if(params.id===republica.id){
+            return res.json(republica);
+        }
+    }
+    return res.status(403).send(`Nome Não Encontrada!`);
+
+})
+
 // Função para criar uma inscrição
-app.post('/create-inscricao', async (req,res) => {
+app.post('/create-inscricao',verificaToken, async (req,res) => {
     //extraindo os dados do formulário para criacao da inscrição
     const {nome, idade, cidade, curso, redeSocial, celular, sobre, curiosidade, motivoEscolha,republicaId,username} = req.body; 
     
@@ -164,6 +181,20 @@ app.post('/create-inscricao', async (req,res) => {
     fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuariosCadastrados, null, 2));
 
     res.send(`Inscrição criada com sucesso`);
+});
+
+// Rota para listar todas inscrições
+app.get('/inscricoes', (req, res, username) => {
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    for(let user of usuariosCadastrados) {
+        if (user.username === username) {
+            const data = user.inscricoes;
+            return res.json(data);
+        }
+    }
 });
 
 function verificaToken(req,res,next){
