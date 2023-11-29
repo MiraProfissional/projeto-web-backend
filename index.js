@@ -142,7 +142,7 @@ app.post('/create-inscricao', async (req,res) => {
 
     //Deu certo. Vamos colocar a inscrição no "banco"
     //Gerar um id incremental baseado na qt de inscrições
-    const id = usuariosCadastrados.length + 1;
+    const id = inscricoesCadastradas.length + 1;
 
     //Criacao da inscrição
     const inscricao = new Inscricao(id, nome, idade, cidade, curso, redeSocial, celular, sobre, curiosidade, motivoEscolha);
