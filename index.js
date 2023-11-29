@@ -84,20 +84,20 @@ app.post('/create-user', async (req,res) => {
     res.send(`Tudo certo usuario criado com sucesso.`);
 });
 
-app.get('/mi', verificaToken, (req,res) => {
-    const authHeaders = req.headers['authorization'];
-    
-    const token = authHeaders && authHeaders.split(' ')[1]
-    //Bearer token
+// Requisição que retorna os dados descriptografados do usuário
+app.get('/mi', verificaToken, (req, res) => {
 
+    const authHeaders = req.headers['authorization'];
+    const token = authHeaders && authHeaders.split(' ')[1]
+    
     try {
-        const decodedToken = jwt.decode(token, process.env.TOKEN);
-        return res.json(decodedToken);
+      const decodedToken = jwt.decode(token, process.env.TOKEN);
+      return res.status(200).json(decodedToken);
     } catch (error) {
-        return res.status(401).json({ error: 'Falha na decodificação do token' });
+      return res.status(401).json({ error: 'Falha na decodificação do token' });
     }
-      
-})
+});
+  
 
 // Função para retornar todas as repúblicas disponíveis
 app.get('/republicas', verificaToken,  (req,res) => {
@@ -142,7 +142,7 @@ app.post('/create-inscricao', async (req,res) => {
 
     //Deu certo. Vamos colocar a inscrição no "banco"
     //Gerar um id incremental baseado na qt de inscrições
-    const id = usuariosCadastrados.length + 1;
+    const id = inscricoesCadastradas.length + 1;
 
     //Criacao da inscrição
     const inscricao = new Inscricao(id, nome, idade, cidade, curso, redeSocial, celular, sobre, curiosidade, motivoEscolha);
@@ -151,14 +151,17 @@ app.post('/create-inscricao', async (req,res) => {
     inscricoesCadastradas.push(inscricao);
     fs.writeFileSync(jsonPathInscricoes,JSON.stringify(inscricoesCadastradas,null,2));
 
-    //Salva o id da inscrição no atributo "inscrições" da república na qual foi cadastrada uma inscrição (Não está funcionando)
-    inscricoesCadastradas.push(inscricao);
-    fs.writeFileSync(jsonPathInscricoes,JSON.stringify(inscricoesCadastradas,null,2));
+    //Salva o id da inscrição no atributo "inscrições" da república na qual foi cadastrada uma inscrição
+    const republica = republicasCadastradas.find((republica) => republica.id === inscricao.id);
+    republica.inscricoes.push(id);
+    //Salva o arquivo
+    fs.writeFileSync(jsonPathRepublicas, JSON.stringify(republicasCadastradas, null, 2));
 
-    //Salva o id da inscrição no atributo "inscrições" do usuário ao qual cadastrou uma inscrição (Não está funcionando)
-    inscricoesCadastradas.push(inscricao);
-    fs.writeFileSync(jsonPathInscricoes,JSON.stringify(inscricoesCadastradas,null,2));
-
+    //Salva o id da inscrição no atributo "inscrições" do usuário ao qual cadastrou uma inscrição
+    const usuario = usuariosCadastrados.find((usuario) => usuario.id === inscricao.id);
+    usuario.inscricoes.push(id);
+    //Salva o arquivo
+    fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuariosCadastrados, null, 2));
 
     res.send(`Inscrição criada com sucesso`);
 });
