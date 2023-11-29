@@ -183,21 +183,6 @@ app.post('/create-inscricao',verificaToken, async (req,res) => {
     res.send(`Inscrição criada com sucesso`);
 });
 
-// Rota para listar todas inscrições
-app.get('/inscricoes', (req, res, username) => {
-
-    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
-    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
-
-    for(let user of usuariosCadastrados) {
-        if (user.username === username) {
-            const data = user.inscricoes;
-            return res.json(data);
-            break;
-        }
-    }
-});
-
 function verificaToken(req,res,next){
 
     const authHeaders = req.headers['authorization'];
@@ -212,4 +197,20 @@ function verificaToken(req,res,next){
         next();
     })
 
+}
+
+//Função para pegar nome de uma república que possuir inscrição com id passado como parâmetro
+function pegarNome(id) {
+    
+    const jsonPathRepublicas = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
+    const republicasCadastradas = JSON.parse(fs.readFileSync(jsonPathRepublicas, { encoding: 'utf8', flag: 'r' }));
+
+    for(let rep of republicasCadastradas) {
+        for(let inscricao of rep.inscricoes) {
+            if(inscricao === id) {
+                let nomeRep = rep.nome;
+                return nomeRep;
+            }
+        }
+    }
 }
