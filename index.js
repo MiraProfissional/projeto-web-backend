@@ -183,6 +183,21 @@ app.post('/create-inscricao',verificaToken, async (req,res) => {
     res.send(`Inscrição criada com sucesso`);
 });
 
+// Rota para listar todas inscrições
+app.get('/inscricoes', (req, res, username) => {
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    for(let user of usuariosCadastrados) {
+        if (user.username === username) {
+            const data = user.inscricoes;
+            return res.json(data);
+            break;
+        }
+    }
+});
+
 function verificaToken(req,res,next){
 
     const authHeaders = req.headers['authorization'];
