@@ -110,12 +110,12 @@ app.get('/republicas', verificaToken,  (req,res) => {
 })
 
 // Função para retornar uma reública com base no seu nome
-app.get('/republicas/:nome', verificaToken, (req,res) => {
+app.get('/republica/:nome', verificaToken, (req,res) => {
 
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
     const republicas = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
-    
-    const params = req.params;
+
+    const params = req.params;    
     //buscar republica
     for(let republica of republicas){
         if(params.nome===republica.nome){
