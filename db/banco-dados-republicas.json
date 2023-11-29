@@ -15,11 +15,12 @@
       "mensalidade" : 850,
       "funcionario" : "Empregada",
       "animal": "cachorro",
-      "img": "logo-poquito",
+      "logo": "logo-poquito",
       "instagram" : "@reppoquitomas",
       "contato" : "12997436507",
       "email":"reppoquitomas@gmail.com",
-      "inscricoes": []
+      "inscricoes": [],
+      "img": "poquito"
     },
     {
       "id": 2,
@@ -37,11 +38,12 @@
       "mensalidade" : 1050,
       "funcionario" : "Diarista",
       "animal": "cachorro e gato",
-      "img": "logo-unifei",
+      "logo": "logo-unifei",
       "instagram" : "@reppoquitomas",
       "contato" : "12997436507",
       "email":"reppoquitomas@gmail.com",
-      "inscricoes":[]
+      "inscricoes":[],
+      "img": "poquito.png"
     },
     {
       "id": 3,
@@ -59,11 +61,12 @@
       "mensalidade" : 850,
       "funcionario" : "",
       "animal": "cachorro",
-      "img": "logo-poquito",
+      "logo": "logo-poquito",
       "instagram" : "@reppoquitomas",
       "contato" : "12997436507",
       "email":"reppoquitomas@gmail.com",
-      "inscricoes":[]
+      "inscricoes":[],
+      "img": "poquito.png"
     },
     {
       "id": 4,
@@ -81,11 +84,12 @@
       "mensalidade" : 850,
       "funcionario" : "Empregada",
       "animal": "cachorro",
-      "img": "logo-poquito",
+      "logo": "logo-poquito",
       "instagram" : "@reppoquitomas",
       "contato" : "12997436507",
       "email":"reppoquitomas@gmail.com",
-      "inscricoes":[]
+      "inscricoes":[],
+      "img": "poquito.png"
     },
     {
       "id": 5,
@@ -103,10 +107,11 @@
       "mensalidade" : 850,
       "funcionario" : "Empregada",
       "animal": "cachorro",
-      "img": "logo-poquito",
+      "logo": "logo-poquito",
       "instagram" : "@reppoquitomas",
       "contato" : "12997436507",
       "email":"reppoquitomas@gmail.com",
-      "inscricoes":[]
+      "inscricoes":[],
+      "img": "poquito.png"
     }   
 ]
