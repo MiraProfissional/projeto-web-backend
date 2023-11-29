@@ -4,14 +4,15 @@
     "username": "Mira",
     "email": "mira@teste.com",
     "password": "$2b$10$ALUfDbUgkPF1rDW2VjbDn.86Lr2ubj2bKlttUikjXucoUtVHegC8i",
-    "inscricoes":[]
-
+    "inscricoes": [
+      1
+    ]
   },
   {
     "id": 2,
     "username": "Jorge",
     "email": "jorge@teste.com",
     "password": "$2b$10$K/7fTTS1gRIr5CZpbvfmFeAV36Ed4n5TnlKOxBps.Df5hZR23QTEm",
-    "inscricoes":[]
+    "inscricoes": []
   }
 ]

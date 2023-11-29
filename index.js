@@ -129,7 +129,7 @@ app.get('/republica/:nome', verificaToken, (req,res) => {
 // Função para criar uma inscrição
 app.post('/create-inscricao', async (req,res) => {
     //extraindo os dados do formulário para criacao da inscrição
-    const {nome, idade, cidade, curso, redeSocial, celular, sobre, curiosidade, motivoEscolha} = req.body; 
+    const {nome, idade, cidade, curso, redeSocial, celular, sobre, curiosidade, motivoEscolha,republicaId,username} = req.body; 
     
     const jsonPathInscricoes = path.join(__dirname, '.', 'db', 'banco-dados-inscricoes.json');
     const inscricoesCadastradas = JSON.parse(fs.readFileSync(jsonPathInscricoes, { encoding: 'utf8', flag: 'r' }));
@@ -152,13 +152,13 @@ app.post('/create-inscricao', async (req,res) => {
     fs.writeFileSync(jsonPathInscricoes,JSON.stringify(inscricoesCadastradas,null,2));
 
     //Salva o id da inscrição no atributo "inscrições" da república na qual foi cadastrada uma inscrição
-    const republica = republicasCadastradas.find((republica) => republica.id === inscricao.id);
+    const republica = republicasCadastradas.find((republica) => republica.id === republicaId);
     republica.inscricoes.push(id);
     //Salva o arquivo
     fs.writeFileSync(jsonPathRepublicas, JSON.stringify(republicasCadastradas, null, 2));
 
     //Salva o id da inscrição no atributo "inscrições" do usuário ao qual cadastrou uma inscrição
-    const usuario = usuariosCadastrados.find((usuario) => usuario.id === inscricao.id);
+    const usuario = usuariosCadastrados.find((usuario) => usuario.id === username);
     usuario.inscricoes.push(id);
     //Salva o arquivo
     fs.writeFileSync(jsonPathUsuarios, JSON.stringify(usuariosCadastrados, null, 2));
