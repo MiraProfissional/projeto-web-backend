@@ -190,19 +190,33 @@ app.get('/inscricoes/:id', verificaToken, (req, res) => {
     console.log(inscricoesCadastradas);
 
     const params = req.params;
-    console.log(params);
 
     //Pega os ids de inscrições vinculadas ao usuário e os transforma no tipo int
     const idsInscricoesDesejadas = params.id.split(',').map(id => parseInt(id, 10));
-    console.log(idsInscricoesDesejadas);
 
     //Busca os objetos Inscrições = id incrições
     const inscricoesDesejadas = inscricoesCadastradas.filter((inscricao) => idsInscricoesDesejadas.includes(inscricao.id));
-    console.log(inscricoesDesejadas);
 
     return res.json(inscricoesDesejadas);
 });
 
+app.get('/inscricoes/exluir/:id', verificaToken, (req, res) => {
+    
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    const params = req.params;
+
+    for(let user of usuariosCadastrados) {
+        for(let insc of user.inscricoes) {
+            if(insc = params.id) {
+                user.inscricoes.splice(indice, 1);
+            }
+
+            let indice = indice + 1;
+        }
+    }
+});
 
 function verificaToken(req,res,next){
 
