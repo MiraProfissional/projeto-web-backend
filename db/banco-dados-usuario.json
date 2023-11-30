@@ -14,5 +14,12 @@
     "email": "jorge@teste.com",
     "password": "$2b$10$K/7fTTS1gRIr5CZpbvfmFeAV36Ed4n5TnlKOxBps.Df5hZR23QTEm",
     "inscricoes": []
+  },
+  {
+    "id": 3,
+    "username": "jorge",
+    "email": "jorge@teste1.com",
+    "password": "$2b$10$4oZ.on8FMuQdSqaXhfGPp.4OrGa3vbPiOYkQiMQO4kFh/nUvRvaoW",
+    "inscricoes": []
   }
 ]
