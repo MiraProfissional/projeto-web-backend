@@ -189,11 +189,31 @@ app.get('/inscricoes', (req, res, username) => {
     const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
 
-    let data = 'Suas inscrições' + '\n';
+    let data = 'Suas inscrições: ' + '\n';
 
     const usuario = usuariosCadastrados.find((usuario) => usuario.username === username);
     for(let inscricao of usuario.inscricoes) {
         data += "Id: " + inscricao + '\n' + "República: " + ' ' + buscaRepublica(inscricao) + '\n';
+    }
+
+    return res.json(data);
+});
+
+// Função para listar uma inscrição especificada pelo usuário
+app.get('/inscricoes/:idParam', (req, res, username) => {
+   
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    const params = req.params;
+
+    let data = 'Inscrição solicitada: ' + '\n';
+
+    const usuario = usuariosCadastrados.find((usuario) => usuario.username === username);
+    for(let inscricao of usuario.inscricoes) {
+        if(params.idParam === inscricao) {
+            data += 'Id: ' + ' ' + inscricao + '\n' + 'República: ' + ' ' + buscaRepublica(inscricao) + '\n';
+        }
     }
 
     return res.json(data);
@@ -224,8 +244,7 @@ function buscaRepublica(id) {
     for(let rep of republicasCadastradas) {
         for(let inscricao of rep.inscricoes) {
             if(inscricao === id) {
-                let nomeRep = rep.nome;
-                return nomeRep;
+                return rep.nome;
             }
         }
     }
