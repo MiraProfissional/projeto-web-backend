@@ -224,6 +224,38 @@ app.get('/inscricoes/exluir/:id', verificaToken, (req, res) => {
     }
 });
 
+// Função para alterar a senha de usuário
+app.post('/update-login', verificaToken, async (req, res) => {
+    const {newPassword, id} = req.body;
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    //gerar uma senha cryptografada
+    const salt = await bcrypt.genSalt(10);
+    const passwordCrypt = await bcrypt.hash(newPassword,salt);
+
+    for(let user of usuariosCadastrados) {
+        if(id === user.id) {
+            user.password = passwordCrypt;
+        }
+    }
+});
+
+// Função para alterar email do usuario
+app.post('/update-email', verificaToken, (req, res) => {
+    const {newEmail, id} = req.body;
+
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    for(let user of usuariosCadastrados) {
+        if(id === user.id) {
+            user.email = newEmail;
+        }
+    }
+});
+
 function verificaToken(req,res,next){
 
     const authHeaders = req.headers['authorization'];
