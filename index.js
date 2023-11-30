@@ -185,13 +185,16 @@ app.post('/create-inscricao',verificaToken, async (req,res) => {
 
 // Rota para listar todas inscrições
 app.get('/inscricoes/:id', verificaToken, (req, res) => {
+
     const jsonPathInscricoes = path.join(__dirname, '.', 'db', 'banco-dados-inscricoes.json');
     const inscricoesCadastradas = JSON.parse(fs.readFileSync(jsonPathInscricoes, { encoding: 'utf8', flag: 'r' }));
 
     const params = req.params;
 
+    //Pega os ids de inscrições vinculadas ao usuário e os transforma no tipo int
     const idsInscricoesDesejadas = params.id.split(',').map(id => parseInt(id, 10));
 
+    //Busca os objetos Inscrições = id incrições
     const inscricoesDesejadas = inscricoesCadastradas.filter((inscricao) => idsInscricoesDesejadas.includes(inscricao.id));
     
     return res.json(inscricoesDesejadas);
@@ -212,20 +215,4 @@ function verificaToken(req,res,next){
         next();
     })
 
-}
-
-//Função para pegar nome de uma república que possuir inscrição com id passado como parâmetro
-function buscaRepublica(id) {
-    
-    const jsonPathRepublicas = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
-    const republicasCadastradas = JSON.parse(fs.readFileSync(jsonPathRepublicas, { encoding: 'utf8', flag: 'r' }));
-
-    for(let rep of republicasCadastradas) {
-        for(let inscricao of rep.inscricoes) {
-            if(inscricao === id) {
-                let nomeRep = rep.nome;
-                return nomeRep;
-            }
-        }
-    }
 }
