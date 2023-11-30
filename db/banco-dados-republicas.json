@@ -15,15 +15,14 @@
     "mensalidade": 850,
     "funcionario": "Empregada",
     "animal": "cachorro",
-    "img": "logo-poquito",
+    "logo": "logo-poquito",
     "instagram": "@reppoquitomas",
     "contato": "12997436507",
     "email": "reppoquitomas@gmail.com",
     "inscricoes": [
-      1,
-      2,
-      3
-    ]
+      1
+    ],
+    "img": "poquito"
   },
   {
     "id": 2,
@@ -41,11 +40,12 @@
     "mensalidade": 1050,
     "funcionario": "Diarista",
     "animal": "cachorro e gato",
-    "img": "logo-unifei",
+    "logo": "logo-unifei",
     "instagram": "@reppoquitomas",
     "contato": "12997436507",
     "email": "reppoquitomas@gmail.com",
-    "inscricoes": []
+    "inscricoes": [],
+    "img": "poquito"
   },
   {
     "id": 3,
@@ -63,10 +63,11 @@
     "mensalidade": 850,
     "funcionario": "",
     "animal": "cachorro",
-    "img": "logo-poquito",
+    "logo": "logo-poquito",
     "instagram": "@reppoquitomas",
     "contato": "12997436507",
     "email": "reppoquitomas@gmail.com",
-    "inscricoes": []
+    "inscricoes": [],
+    "img": "poquito"
   }
 ]

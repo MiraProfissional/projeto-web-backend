@@ -184,40 +184,24 @@ app.post('/create-inscricao',verificaToken, async (req,res) => {
 });
 
 // Rota para listar todas inscrições
-app.get('/inscricoes', (req, res, username) => {
-
-    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
-    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
-
-    let data = 'Suas inscrições: ' + '\n';
-
-    const usuario = usuariosCadastrados.find((usuario) => usuario.username === username);
-    for(let inscricao of usuario.inscricoes) {
-        data += "Id: " + inscricao + '\n' + "República: " + ' ' + buscaRepublica(inscricao) + '\n';
-    }
-
-    return res.json(data);
-});
-
-// Função para listar uma inscrição especificada pelo usuário
-app.get('/inscricoes/:idParam', (req, res, username) => {
-   
-    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
-    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+app.get('/inscricoes/:id', verificaToken, (req, res) => {
+    
+    const jsonPathInscricoes = path.join(__dirname, '.', 'db', 'banco-dados-inscricoes.json');
+    const inscricoesCadastradas = JSON.parse(fs.readFileSync(jsonPathInscricoes, { encoding: 'utf8', flag: 'r' }));
+    console.log(inscricoesCadastradas);
 
     const params = req.params;
+    console.log(params);
 
-    let data = 'Inscrição solicitada: ' + '\n';
+    const idsInscricoesDesejadas = params.id.split(',').map(id => parseInt(id, 10));
+    console.log(idsInscricoesDesejadas);
 
-    const usuario = usuariosCadastrados.find((usuario) => usuario.username === username);
-    for(let inscricao of usuario.inscricoes) {
-        if(params.idParam === inscricao) {
-            data += 'Id: ' + ' ' + inscricao + '\n' + 'República: ' + ' ' + buscaRepublica(inscricao) + '\n';
-        }
-    }
+    const inscricoesDesejadas = inscricoesCadastradas.filter((inscricao) => idsInscricoesDesejadas.includes(inscricao.id));
+    console.log(inscricoesDesejadas);
 
-    return res.json(data);
+    return res.json(inscricoesDesejadas);
 });
+
 
 function verificaToken(req,res,next){
 
