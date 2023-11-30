@@ -185,7 +185,6 @@ app.post('/create-inscricao',verificaToken, async (req,res) => {
 
 // Rota para listar todas inscrições
 app.get('/inscricoes/:id', verificaToken, (req, res) => {
-    
     const jsonPathInscricoes = path.join(__dirname, '.', 'db', 'banco-dados-inscricoes.json');
     const inscricoesCadastradas = JSON.parse(fs.readFileSync(jsonPathInscricoes, { encoding: 'utf8', flag: 'r' }));
     console.log(inscricoesCadastradas);
@@ -193,9 +192,11 @@ app.get('/inscricoes/:id', verificaToken, (req, res) => {
     const params = req.params;
     console.log(params);
 
+    //Pega os ids de inscrições vinculadas ao usuário e os transforma no tipo int
     const idsInscricoesDesejadas = params.id.split(',').map(id => parseInt(id, 10));
     console.log(idsInscricoesDesejadas);
 
+    //Busca os objetos Inscrições = id incrições
     const inscricoesDesejadas = inscricoesCadastradas.filter((inscricao) => idsInscricoesDesejadas.includes(inscricao.id));
     console.log(inscricoesDesejadas);
 
@@ -218,6 +219,7 @@ function verificaToken(req,res,next){
     })
 
 }
+<<<<<<< HEAD
 
 //Função para pegar nome de uma república que possuir inscrição com id passado como parâmetro
 function buscaRepublica(id) {
@@ -233,3 +235,5 @@ function buscaRepublica(id) {
         }
     }
 }
+=======
+>>>>>>> df90bcb2f78b6798de3bd9a59817f69005fe93e4
