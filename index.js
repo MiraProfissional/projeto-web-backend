@@ -193,7 +193,7 @@ app.get('/inscricoes', (req, res, username) => {
 
     const usuario = usuariosCadastrados.find((usuario) => usuario.username === username);
     for(let inscricao of usuario.inscricoes) {
-        data += "Id: " + inscricao + '\n' + "República: " + ' ' + buscaRepublica(inscricao);
+        data += "Id: " + inscricao + '\n' + "República: " + ' ' + buscaRepublica(inscricao) + '\n';
     }
 
     return res.json(data);
