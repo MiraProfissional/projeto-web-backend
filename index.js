@@ -216,24 +216,5 @@ function verificaToken(req,res,next){
     jwt.verify(token, process.env.TOKEN, (err) => {
         if(err) return res.status(403).send('Token Inválido/Expirado');
         next();
-    })
-
+    });
 }
-<<<<<<< HEAD
-
-//Função para pegar nome de uma república que possuir inscrição com id passado como parâmetro
-function buscaRepublica(id) {
-    
-    const jsonPathRepublicas = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
-    const republicasCadastradas = JSON.parse(fs.readFileSync(jsonPathRepublicas, { encoding: 'utf8', flag: 'r' }));
-
-    for(let rep of republicasCadastradas) {
-        for(let inscricao of rep.inscricoes) {
-            if(inscricao === id) {
-                return rep.nome;
-            }
-        }
-    }
-}
-=======
->>>>>>> df90bcb2f78b6798de3bd9a59817f69005fe93e4
