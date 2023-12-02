@@ -234,7 +234,7 @@ app.post('/update-login', verificaToken, async (req, res) => {
     //gerar uma senha cryptografada
     const salt = await bcrypt.genSalt(10);
     const passwordCrypt = await bcrypt.hash(newPassword,salt);
-
+    
     for(let user of usuariosCadastrados) {
         if(id === user.id) {
             user.password = passwordCrypt;
