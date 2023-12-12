@@ -106,7 +106,7 @@ app.get('/republicas', verificaToken,  (req,res) => {
 
 });
 
-// Função para retornar uma república com base no seu nome
+// Função para retornar uma república com base no seu nome ou abrir página da república através do botão "acessar página"
 app.get('/republica/:nome', verificaToken, (req,res) => {
 
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
@@ -201,7 +201,7 @@ app.get('/inscricoes/:id', verificaToken, (req, res) => {
     return res.json(inscricoesDesejadas);
 });
 
-app.get('/inscricoes/exluir/:id', verificaToken, (req, res) => {
+app.get('/inscricoes/excluir/:id', verificaToken, (req, res) => {
     
     const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
