@@ -39,18 +39,17 @@ app.post('/login', async (req,res) => {
 
                 return res.json({ "token" : token});
             }
-            
             else
                 return res.status(422).send(`Usuario ou senhas incorretas.`);
         }   
     }
     //Nesse ponto não existe usuario com email informado.
     return res.status(409).send(`Usuario com email ${email} não existe. Considere criar uma conta!`);
-
-})
+});
 
 //Requisicao com POST publica para criar usuário
 app.post('/create-user', async (req,res) => {
+    
     //extraindo os dados do formulário para criacao do usuario
     const {username, email, password} = req.body; 
     
@@ -58,7 +57,6 @@ app.post('/create-user', async (req,res) => {
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
 
     //verifica se já existe usuario com o email informado
-    
     for (let users of usuariosCadastrados){
         if(users.email === email){
             //usuario já existe. Impossivel criar outro
@@ -67,9 +65,8 @@ app.post('/create-user', async (req,res) => {
         }   
     }
     //Deu certo. Vamos colocar o usuário no "banco"
-    //Gerar um id incremental baseado na qt de users
+    //Gerar um id incremental baseado na quantidade de users
     const id = usuariosCadastrados.length + 1;
-    
 
     //gerar uma senha cryptografada
     const salt = await bcrypt.genSalt(10);
@@ -81,7 +78,7 @@ app.post('/create-user', async (req,res) => {
     //Salva user no "banco"
     usuariosCadastrados.push(user);
     fs.writeFileSync(jsonPath,JSON.stringify(usuariosCadastrados,null,2));
-    res.send(`Tudo certo usuario criado com sucesso.`);
+    res.send(`Úsuario criado com sucesso.`);
 });
 
 // Requisição que retorna os dados descriptografados do usuário
@@ -93,11 +90,11 @@ app.get('/mi', verificaToken, (req, res) => {
     try {
       const decodedToken = jwt.decode(token, process.env.TOKEN);
       return res.status(200).json(decodedToken);
-    } catch (error) {
+    } 
+    catch (error) {
       return res.status(401).json({ error: 'Falha na decodificação do token' });
     }
 });
-  
 
 // Função para retornar todas as repúblicas disponíveis
 app.get('/republicas', verificaToken,  (req,res) => {
@@ -107,26 +104,26 @@ app.get('/republicas', verificaToken,  (req,res) => {
 
     return res.json(republicas);
 
-})
+});
 
-// Função para retornar uma reública com base no seu nome
+// Função para retornar uma república com base no seu nome
 app.get('/republica/:nome', verificaToken, (req,res) => {
 
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
     const republicas = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
 
     const params = req.params;    
+    
     //buscar republica
     for(let republica of republicas){
-        if(params.nome===republica.nome){
+        if(params.nome === republica.nome){
             return res.json(republica);
         }
     }
-    return res.status(403).send(`Nome Não Encontrada!`);
-
+    return res.status(403).send(`República não encontrada!`);
 })
 
-// Função para retornar uma reública com base no seu id
+// Função para retornar uma república com base no seu id
 app.get('/republicaId/:id', verificaToken, (req, res) => {
 
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
@@ -139,15 +136,13 @@ app.get('/republicaId/:id', verificaToken, (req, res) => {
     // Buscar republica
     for (let republica of republicas) {
       if (parseInt(republica.id) === idRep) {
-        if (republica) {
-          return res.json(republica);
-        }
+        return res.json(republica);
       }
     }
   
     return res.status(403).send(`Nome Não Encontrada!`);
   
-  });
+});
   
 // Função para criar uma inscrição
 app.post('/create-inscricao',verificaToken, async (req,res) => {
@@ -191,9 +186,9 @@ app.post('/create-inscricao',verificaToken, async (req,res) => {
 
 // Rota para listar todas inscrições
 app.get('/inscricoes/:id', verificaToken, (req, res) => {
+    
     const jsonPathInscricoes = path.join(__dirname, '.', 'db', 'banco-dados-inscricoes.json');
     const inscricoesCadastradas = JSON.parse(fs.readFileSync(jsonPathInscricoes, { encoding: 'utf8', flag: 'r' }));
-    console.log(inscricoesCadastradas);
 
     const params = req.params;
 
