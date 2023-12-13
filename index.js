@@ -122,27 +122,6 @@ app.get('/republica/:nome', verificaToken, (req,res) => {
     }
     return res.status(403).send(`República não encontrada!`);
 })
-
-// Função para retornar uma república com base no seu id
-app.get('/republicaId/:id', verificaToken, (req, res) => {
-
-    const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-republicas.json');
-    const republicas = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
-  
-    const params = req.params;
-  
-    const idRep = parseInt(params.id, 10);
-  
-    // Buscar republica
-    for (let republica of republicas) {
-      if (parseInt(republica.id) === idRep) {
-        return res.json(republica);
-      }
-    }
-  
-    return res.status(403).send(`Nome Não Encontrada!`);
-  
-});
   
 // Função para criar uma inscrição
 app.post('/create-inscricao',verificaToken, async (req,res) => {
@@ -249,6 +228,24 @@ app.post('/update-email', verificaToken, (req, res) => {
             user.email = newEmail;
         }
     }
+});
+
+
+// Rota para alterar username 
+app.post('/update-username', verificaToken, (req, res) => {
+    const {username, idUser} = req.body;
+
+    // Abertura do arquivos de usuários
+    const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
+
+    for(let user of usuariosCadastrados) {
+        if(idUser === user.id) {
+            user.username = username;
+        }
+    }
+
+    res.send("Usuário alterado com sucesso");
 });
 
 function verificaToken(req,res,next){
