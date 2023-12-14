@@ -82,7 +82,7 @@ app.post('/create-user', async (req,res) => {
 });
 
 // Requisição que retorna os dados descriptografados do usuário
-app.get('/mi', verificaToken, (req, res) => {
+app.get('/mi', (req, res) => {
 
     const authHeaders = req.headers['authorization'];
     const token = authHeaders && authHeaders.split(' ')[1]
@@ -92,8 +92,7 @@ app.get('/mi', verificaToken, (req, res) => {
         return res.status(200).json(decodedToken);
     } 
     catch (error) {
-        const decodedToken = jwt.decode(token, process.env.TOKEN);
-        return res.status(200).json(decodedToken);
+        return res.status(401).json({ error: 'Falha na decodificação do token' });
     }
 });
 
@@ -179,6 +178,26 @@ app.get('/inscricoes/:id', verificaToken, (req, res) => {
     const inscricoesDesejadas = inscricoesCadastradas.filter((inscricao) => idsInscricoesDesejadas.includes(inscricao.id));
 
     return res.json(inscricoesDesejadas);
+});
+
+app.get('/inscricoes-usuario', (req, res) => {
+
+    const jsonPathInscricoes = path.join(__dirname, '.', 'db', 'banco-dados-inscricoes.json');
+    const inscricoesBD = JSON.parse(fs.readFileSync(jsonPathInscricoes, { encoding: 'utf8', flag: 'r' }));
+
+    const params = req.params;
+    // [1, 2]
+    let listaInscricoes = [];
+
+    for(let inscricaoParams of params) {
+        for (let inscricaoBD of inscricoesBD) {
+            if(inscricaoParams === inscricaoBD) {
+                listaInscricoes.push(inscricaoBD);
+            }
+        }
+    }
+
+    return res.json(listaInscricoes);
 });
 
 app.get('/inscricoes/excluir/:id', verificaToken, (req, res) => {
