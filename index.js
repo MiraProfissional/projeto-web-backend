@@ -200,21 +200,23 @@ app.get('/inscricoes/excluir/:id', verificaToken, (req, res) => {
 });
 
 // Função para alterar a senha de usuário
-app.post('/update-login', verificaToken, async (req, res) => {
-    const {newPassword, id} = req.body;
+app.post('/edita_senha', verificaToken, async (req, res) => {
+    const {novaSenha, idUser} = req.body;
 
     const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
 
     //gerar uma senha cryptografada
     const salt = await bcrypt.genSalt(10);
-    const passwordCrypt = await bcrypt.hash(newPassword,salt);
+    const passwordCrypt = await bcrypt.hash(novaSenha, salt);
     
     for(let user of usuariosCadastrados) {
-        if(id === user.id) {
+        if(user.id === idUser) {
             user.password = passwordCrypt;
         }
     }
+
+    return res.send("Senha alterada com sucesso");
 });
 
 // Rota para alterar email do usuario
@@ -249,13 +251,20 @@ app.post('/edita_perfil', verificaToken, (req, res) => {
     const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
 
+    // Verificar se já existe algum usuário com o mesmo username
     for(let user of usuariosCadastrados) {
-        if(idUser === user.id) {
-            user.username = usernameAlt;
+        if(usernameAlt === user.username) {
+            return res.status(409).send("Outro usuário já usa esse username");
+        }
+        // Se não tiver, mudar o do usuário logado
+        else {
+            if(idUser === user.id) {
+                user.username = usernameAlt;
+            }
         }
     }
 
-    res.send("Usuário alterado com sucesso");
+    return res.send("Username alterado com sucesso");
 });
 
 function verificaToken(req,res,next){
