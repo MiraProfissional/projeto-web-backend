@@ -88,11 +88,12 @@ app.get('/mi', verificaToken, (req, res) => {
     const token = authHeaders && authHeaders.split(' ')[1]
     
     try {
-      const decodedToken = jwt.decode(token, process.env.TOKEN);
-      return res.status(200).json(decodedToken);
+        const decodedToken = jwt.decode(token, process.env.TOKEN);
+        return res.status(200).json(decodedToken);
     } 
     catch (error) {
-      return res.status(401).json({ error: 'Falha na decodificação do token' });
+        const decodedToken = jwt.decode(token, process.env.TOKEN);
+        return res.status(200).json(decodedToken);
     }
 });
 
@@ -216,24 +217,33 @@ app.post('/update-login', verificaToken, async (req, res) => {
     }
 });
 
-// Função para alterar email do usuario
-app.post('/update-email', verificaToken, (req, res) => {
-    const {newEmail, id} = req.body;
+// Rota para alterar email do usuario
+app.post('/edita_email', verificaToken, (req, res) => {
+    const {emailConf, idUser} = req.body;
 
     const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPathUsuarios, { encoding: 'utf8', flag: 'r' }));
 
+    // Verificar se já existe algum usuário com o mesmo email
     for(let user of usuariosCadastrados) {
-        if(id === user.id) {
-            user.email = newEmail;
+        if(emailConf === user.email) {
+            return res.status(409).send("Outro usuário já usa esse email");
+        }
+        // Se não tiver, mudar o do usuário logado
+        else {
+            if(idUser === user.id) {
+                user.email = emailConf;
+            }
         }
     }
+
+    return res.send("Email alterado com sucesso");   
 });
 
 
 // Rota para alterar username 
-app.post('/update-username', verificaToken, (req, res) => {
-    const {username, idUser} = req.body;
+app.post('/edita_perfil', verificaToken, (req, res) => {
+    const {usernameAlt, idUser} = req.body;
 
     // Abertura do arquivos de usuários
     const jsonPathUsuarios = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
@@ -241,7 +251,7 @@ app.post('/update-username', verificaToken, (req, res) => {
 
     for(let user of usuariosCadastrados) {
         if(idUser === user.id) {
-            user.username = username;
+            user.username = usernameAlt;
         }
     }
 
@@ -255,7 +265,7 @@ function verificaToken(req,res,next){
     const token = authHeaders && authHeaders.split(' ')[1]
     //Bearer token
 
-    if(token == null) return res.status(401).send('Acesso Negado');
+    if(!token) return res.status(401).send('Acesso Negado');
 
     jwt.verify(token, process.env.TOKEN, (err) => {
         if(err) return res.status(403).send('Token Inválido/Expirado');
