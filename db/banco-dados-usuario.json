@@ -15,5 +15,12 @@
     "email": "jorge@teste.com",
     "password": "$2b$10$K/7fTTS1gRIr5CZpbvfmFeAV36Ed4n5TnlKOxBps.Df5hZR23QTEm",
     "inscricoes": []
+  },
+  {
+    "id": 3,
+    "username": "Xamã",
+    "email": "xama@teste.com",
+    "password": "$2b$10$y8jp8AumZlxdmPpBRsT83u8.ehFhgeot5.xy9oKwuqQNNFv.oDlaC",
+    "inscricoes": []
   }
 ]
